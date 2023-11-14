@@ -15,3 +15,6 @@ I created an S3 bucket using the sagemaker session object it is named "operation
 
 Below is a screenshot of the first deployed endpoint (the endpoint that only used single instance training)
 ![first-endpoint](./first-endpoint.png)
+
+Below is a screenshot of the 2nd deployed endpoint (the endpoint that only used multi instance training)
+![first-endpoint](./multi-instance-endpoint.png)
