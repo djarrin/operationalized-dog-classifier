@@ -99,10 +99,10 @@ def net():
                    nn.Linear(128, 133))
     return model
 
-def create_data_loaders(data, batch_size):
-    train_data_path = os.path.join(data, 'train')
-    test_data_path = os.path.join(data, 'test')
-    validation_data_path=os.path.join(data, 'valid')
+def create_data_loaders(batch_size):
+    train_data_path = os.environ['SM_CHANNEL_TRAIN']
+    test_data_path = os.environ['SM_CHANNEL_TEST']
+    validation_data_path = os.environ['SM_CHANNEL_VALID']
 
     train_transform = transforms.Compose([
         transforms.RandomResizedCrop((224, 224)),
@@ -128,9 +128,8 @@ def create_data_loaders(data, batch_size):
 
 def main(args):
     logger.info(f'Hyperparameters are LR: {args.learning_rate}, Batch Size: {args.batch_size}')
-    logger.info(f'Data Paths: {args.data}')
     
-    train_loader, test_loader, validation_loader=create_data_loaders(args.data, args.batch_size)
+    train_loader, test_loader, validation_loader=create_data_loaders(args.batch_size)
     model=net()
     
     criterion = nn.CrossEntropyLoss(ignore_index=133)
@@ -143,13 +142,12 @@ def main(args):
     test(model, test_loader, criterion)
     
     logger.info("Saving Model")
-    torch.save(model.cpu().state_dict(), os.path.join(args.model_dir, "model.pth"))
+    torch.save(model, '/opt/ml/model/model.pt')
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--learning_rate', type=float)
     parser.add_argument('--batch_size', type=int)
-    parser.add_argument('--data', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
     parser.add_argument('--model_dir', type=str, default=os.environ['SM_MODEL_DIR'])
     parser.add_argument('--output_dir', type=str, default=os.environ['SM_OUTPUT_DATA_DIR'])
     
