@@ -24,7 +24,9 @@ An alternative to using sagemaker is to use an EC2 instance directly (which is m
 ![ec2-instance](./ec2-instance.png)
 I choose this particular size of instance because I wanted it to be large enough not to take too long for training but not too large to cost too much. I also picked the "Deep Learning AMI GPU PyTorch 2.0.1 (Amazon Linux 2) 20231107" AMI because it would have the pytourch packages I needed already installed on the machine.
 Here is a screenshot of the model location after it had been saved.
+
 ![ec2-trained-model](./ec2-trained-model.png)
+
 Training a model this way is more cost effective but lacks certain convineces. For example if I wanted to deploy the model I trained in the EC2 instance I would then need to write a script to manually write the model artifact to an S3 instance (which would require me to setup permissions), then within the console (and sagemaker most likely) choose the model artifact to deploy the instance to an endpoint. This feels like something I would only do for very specialized instances when I had a very small budget.
 
 ## Operationalizing Model
