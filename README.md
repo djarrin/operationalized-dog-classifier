@@ -41,6 +41,7 @@ For this part of the exercise I had to navigate to the IAM interface, find my in
 
 the results of my endpoint invocation was:
 ![lambda-invoke-test](./lambda-invoke-test.png)
+
 ```
 {
   "statusCode": 200,
